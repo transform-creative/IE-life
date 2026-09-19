@@ -34,7 +34,8 @@ export function PaymentSuccessModal({
 }: PaymentSuccessModalProps) {
   const total =
     cart.reduce(
-      (sum, item) => sum + item.product.amount * item.quantity,
+      (sum, item) =>
+        sum + item.product.amount * item.quantity,
       0,
     ) / 100;
 
@@ -51,12 +52,19 @@ export function PaymentSuccessModal({
     >
       <h3 className="center mt-10">{title}</h3>
 
-      <p style={{ textAlign: "center" }} className="mt-10">
-        A receipt has been sent to <strong>{email}</strong>
+      <p
+        style={{ textAlign: "center" }}
+        className="mt-10"
+      >
+        A receipt has been sent to{" "}
+        <strong>{email}</strong>
       </p>
 
       {body && (
-        <p style={{ textAlign: "center" }} className="mt-10">
+        <p
+          style={{ textAlign: "center" }}
+          className="mt-10"
+        >
           {body}
         </p>
       )}

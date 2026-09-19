@@ -1,8 +1,14 @@
-import { ErrorLabelType, SharedContextProps } from "~/data/CommonTypes";
+import {
+  ErrorLabelType,
+  SharedContextProps,
+} from "~/data/CommonTypes";
 import { Icon } from "../Icon";
 import { Ref, useState } from "react";
 
-import { Identity, identitySchema } from "./StepperBL";
+import {
+  Identity,
+  identitySchema,
+} from "./StepperBL";
 import { LabelInput } from "../LabelInput/LabelInput";
 
 export interface CheckoutIdentityProps {
@@ -26,29 +32,34 @@ export function CheckoutIdentity({
   nodeRef,
   isOrder = false,
   metadata,
-    context,
+  context,
   setMetadata,
   onBack,
   onNext,
 }: CheckoutIdentityProps) {
-  const [localIdentity, setLocalIdentity] = useState<Identity>(
-    identity || {
-      first: "",
-      last: "",
-      email: "",
-      phone: "",
-      org: undefined,
-    },
-  );
-  const [error, setError] = useState<ErrorLabelType>({
-    active: false,
-  });
+  const [localIdentity, setLocalIdentity] =
+    useState<Identity>(
+      identity || {
+        first: "",
+        last: "",
+        email: "",
+        phone: "",
+        org: undefined,
+      },
+    );
+  const [error, setError] =
+    useState<ErrorLabelType>({
+      active: false,
+    });
 
   function onIdentityChange(
     key: keyof Identity,
     value: string | undefined,
   ) {
-    setLocalIdentity({ ...localIdentity, [key]: value });
+    setLocalIdentity({
+      ...localIdentity,
+      [key]: value,
+    });
   }
 
   /***************************************
@@ -57,7 +68,9 @@ export function CheckoutIdentity({
    */
   function handleSubmit() {
     // safeParse ensures we don't throw expensive errors
-    const result = identitySchema.safeParse(localIdentity);
+    const result = identitySchema.safeParse(
+      localIdentity,
+    );
 
     if (!result.success) {
       const firstIssue = result.error.issues[0];
@@ -96,9 +109,16 @@ export function CheckoutIdentity({
               placeholder="John"
               value={localIdentity.first}
               onChange={(e) =>
-                onIdentityChange("first", e.target.value)
+                onIdentityChange(
+                  "first",
+                  e.target.value,
+                )
               }
-              error={error.selector === "first" ? error.text : ""}
+              error={
+                error.selector === "first"
+                  ? error.text
+                  : ""
+              }
             />
             <LabelInput
               id="last"
@@ -108,9 +128,16 @@ export function CheckoutIdentity({
               placeholder="Smith"
               value={localIdentity.last}
               onChange={(e) =>
-                onIdentityChange("last", e.target.value)
+                onIdentityChange(
+                  "last",
+                  e.target.value,
+                )
               }
-              error={error.selector === "last" ? error.text : ""}
+              error={
+                error.selector === "last"
+                  ? error.text
+                  : ""
+              }
             />
           </div>
           <LabelInput
@@ -122,9 +149,16 @@ export function CheckoutIdentity({
             placeholder="hello@email.com"
             value={localIdentity.email}
             onChange={(e) =>
-              onIdentityChange("email", e.target.value)
+              onIdentityChange(
+                "email",
+                e.target.value,
+              )
             }
-            error={error.selector === "email" ? error.text : ""}
+            error={
+              error.selector === "email"
+                ? error.text
+                : ""
+            }
           />
           {/* <LabelInput
             id="phone"

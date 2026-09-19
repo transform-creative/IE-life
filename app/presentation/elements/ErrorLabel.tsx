@@ -5,7 +5,7 @@ export interface ErrorLabelProps {
   active: boolean;
   text?: string;
   color?: string;
-  icon?: IoniconName
+  icon?: IoniconName;
 }
 
 /******************************
@@ -16,11 +16,14 @@ export function ErrorLabel({
   active,
   text = "Please enter a valid value",
   color = "var(--dangerColor)",
-  icon="alert-circle"
+  icon = "alert-circle",
 }: ErrorLabelProps) {
   if (active)
     return (
-      <div className="mb-10" style={{userSelect: "none"}}>
+      <div
+        className="mb-10"
+        style={{ userSelect: "none" }}
+      >
         <div className="leftRow middle">
           <IonIcon
             name={icon}

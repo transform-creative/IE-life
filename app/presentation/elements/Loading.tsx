@@ -9,13 +9,20 @@ export interface LoadingProps {
  * Loading component
  * @todo Create description
  */
-export function Loading({ loadingText }: LoadingProps) {
-  const context: SharedContextProps = useOutletContext();
+export function Loading({
+  loadingText,
+}: LoadingProps) {
+  const context: SharedContextProps =
+    useOutletContext();
 
   return (
     <div
       className="w-100 col middle center fade-md"
-      style={{ minHeight: "100vh", position: "sticky", top: 0 }}
+      style={{
+        minHeight: "100vh",
+        position: "sticky",
+        top: 0,
+      }}
     >
       <div className="ball"></div>
       <h3>{loadingText}</h3>

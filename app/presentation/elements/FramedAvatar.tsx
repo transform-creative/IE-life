@@ -12,7 +12,9 @@ export interface FramedAvatarProps {
   /** Extra class for the outer wrapper */
   className?: string;
   style?: CSSProperties;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onClick?: (
+    e: React.MouseEvent<HTMLDivElement>,
+  ) => void;
 }
 
 /******************************
@@ -34,7 +36,16 @@ export function FramedAvatar({
   return (
     <div
       className={`framed-avatar-ring ${frameClass} ${className}`.trim()}
-      style={{ width: size, height: size, ...(frameInset != null ? { '--fa-inset': `${frameInset}px` } as any : {}), ...style }}
+      style={{
+        width: size,
+        height: size,
+        ...(frameInset != null
+          ? ({
+              "--fa-inset": `${frameInset}px`,
+            } as any)
+          : {}),
+        ...style,
+      }}
       onClick={onClick}
     >
       <img src={src} alt={alt} loading="lazy" />

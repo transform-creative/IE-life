@@ -9,7 +9,8 @@ export interface ExampleComponentProps {}
  * Use this file as the template for every new component in the app.
  */
 export function ExampleComponent({}: ExampleComponentProps) {
-  const context: SharedContextProps = useOutletContext();
+  const context: SharedContextProps =
+    useOutletContext();
 
   return (
     <div>

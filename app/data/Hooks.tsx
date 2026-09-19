@@ -6,7 +6,9 @@ import { useSearchParams } from "react-router";
  * Calls `handler` when a mousedown fires outside the referenced element.
  * Pass `enabled = false` to skip attaching the listener.
  */
-export function useClickOutside<T extends HTMLElement>(
+export function useClickOutside<
+  T extends HTMLElement,
+>(
   ref: RefObject<T | null>,
   handler: (e: MouseEvent) => void,
   enabled = true,
@@ -15,11 +17,18 @@ export function useClickOutside<T extends HTMLElement>(
     if (!enabled) return;
     function onMouseDown(e: MouseEvent) {
       const el = ref.current;
-      if (el && !el.contains(e.target as Node)) handler(e);
+      if (el && !el.contains(e.target as Node))
+        handler(e);
     }
-    document.addEventListener("mousedown", onMouseDown);
+    document.addEventListener(
+      "mousedown",
+      onMouseDown,
+    );
     return () =>
-      document.removeEventListener("mousedown", onMouseDown);
+      document.removeEventListener(
+        "mousedown",
+        onMouseDown,
+      );
   }, [ref, handler, enabled]);
 }
 
@@ -36,7 +45,11 @@ export function useScrollToSection() {
     // Defer to next frame so the target element has time to mount.
     const id = requestAnimationFrame(() => {
       const el = document.getElementById(section);
-      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      if (el)
+        el.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
     });
     return () => cancelAnimationFrame(id);
   }, [searchParams]);

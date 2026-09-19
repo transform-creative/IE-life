@@ -31,7 +31,8 @@ export function PopUpModal({
   zIndex = 20,
   disableClickOff = false,
 }: PopUpModalProps) {
-  const transitionRef = useRef<HTMLDivElement>(null);
+  const transitionRef =
+    useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!active || disableClickOff) return;
@@ -39,7 +40,11 @@ export function PopUpModal({
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    return () =>
+      window.removeEventListener(
+        "keydown",
+        handleKey,
+      );
   }, [active, disableClickOff, onClose]);
 
   const handleEnter = () => {
@@ -85,13 +90,18 @@ export function PopUpModal({
         >
           <div
             className="menu s2 p-5 outline-secondary"
-            onClick={(e) => {e.stopPropagation()}}
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
             style={{
               width: width,
               height: "auto",
             }}
           >
-            <div onClick={() => onClose()} className="rightRow m0">
+            <div
+              onClick={() => onClose()}
+              className="rightRow m0"
+            >
               <IonIcon
                 className="buttonIcon clickable"
                 name="close"

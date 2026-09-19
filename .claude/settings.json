@@ -26,7 +26,29 @@
       "Read(//c/Users/isaac/node_modules/node/**)",
       "Read(//c/Users/isaac/AppData/Roaming/npm//**)",
       "Bash(command -v npm)",
-      "PowerShell(Get-ChildItem C:\\\\Users\\\\isaac\\\\node_modules -Directory | Measure-Object | Select-Object -ExpandProperty Count; Get-ChildItem C:\\\\Users\\\\isaac\\\\ -File | Where-Object { $_.Name -in 'package.json','package-lock.json' } | Select-Object Name, Length)"
+      "PowerShell(Get-ChildItem C:\\\\Users\\\\isaac\\\\node_modules -Directory | Measure-Object | Select-Object -ExpandProperty Count; Get-ChildItem C:\\\\Users\\\\isaac\\\\ -File | Where-Object { $_.Name -in 'package.json','package-lock.json' } | Select-Object Name, Length)",
+
+      "PowerShell(npm test)",
+      "PowerShell(npm run test:watch)",
+      "PowerShell(npm run typecheck)",
+      "PowerShell(npm run lint)",
+      "PowerShell(npm run lint:fix)",
+      "PowerShell(npm run format)",
+      "PowerShell(npm run build)",
+      "PowerShell(npx vitest run *)",
+      "PowerShell(npx prettier --write *)",
+      "PowerShell(npx prettier --check *)",
+
+      "Bash(npm test)",
+      "Bash(npm run test:watch)",
+      "Bash(npm run typecheck)",
+      "Bash(npm run lint)",
+      "Bash(npm run lint:fix)",
+      "Bash(npm run format)",
+      "Bash(npm run build)",
+      "Bash(npx vitest run *)",
+      "Bash(npx prettier --write *)",
+      "Bash(npx prettier --check *)"
     ],
     "additionalDirectories": [
       "C:\\Users\\isaac\\node_modules"

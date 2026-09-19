@@ -170,7 +170,8 @@ export function PaymentStepper({
     if (step >= 2) return;
     setIdentity((prev) => ({
       ...prev,
-      email: context.session?.user.email ?? prev.email,
+      email:
+        context.session?.user.email ?? prev.email,
     }));
   }, [context.session]);
 
@@ -204,7 +205,8 @@ export function PaymentStepper({
       cart: cart,
       returnUrl: successUrl,
       metadata: {
-        origin_site: context.brandConfig.origin_site,
+        origin_site:
+          context.brandConfig.origin_site,
         ...metadata,
       },
     });
@@ -279,7 +281,9 @@ export function PaymentStepper({
   /******************************
    * Runs after user submits identity form
    */
-  async function onIdentityNext(identity: Identity) {
+  async function onIdentityNext(
+    identity: Identity,
+  ) {
     setIdentity(identity);
     setStep(2);
   }

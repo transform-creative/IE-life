@@ -10,9 +10,14 @@ import { logError } from "~/database/Auth";
 import * as spinners from "react-spinners";
 import { CONTACT } from "~/data/Objects";
 import { invokeStripeCheckout } from "~/database/Functions";
-import { Identity, PaymentObject } from "./StepperBL";
+import {
+  Identity,
+  PaymentObject,
+} from "./StepperBL";
 
-const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
+const stripePromise = loadStripe(
+  import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY,
+);
 
 export interface CheckoutCardProps {
   context: SharedContextProps;
@@ -31,7 +36,8 @@ export function CheckoutCard({
   paymentProps,
   onBack,
 }: CheckoutCardProps) {
-  const [clientSecret, setClientSecret] = useState<string>();
+  const [clientSecret, setClientSecret] =
+    useState<string>();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -45,18 +51,23 @@ export function CheckoutCard({
     setLoading(true);
 
     try {
-      const data = await createStripeCheckoutSession(
-        paymentProps,
-        identity,
-      );
+      const data =
+        await createStripeCheckoutSession(
+          paymentProps,
+          identity,
+        );
 
       // 2. Save the secret key
       setClientSecret(data.clientSecret);
 
       // 3. Persist cart + email to survive the Stripe redirect
       sessionStorage.setItem(
-        'payment_pending_info',
-        JSON.stringify({ cart: paymentProps.cart, email: identity.email, metadata: paymentProps.metadata }),
+        "payment_pending_info",
+        JSON.stringify({
+          cart: paymentProps.cart,
+          email: identity.email,
+          metadata: paymentProps.metadata,
+        }),
       );
     } catch (err: any) {
       logError(err);
@@ -76,7 +87,10 @@ export function CheckoutCard({
     payment: PaymentObject,
     identity: Identity,
   ): Promise<{ clientSecret: string }> {
-    return invokeStripeCheckout({ payment, identity } as Record<string, unknown>);
+    return invokeStripeCheckout({
+      payment,
+      identity,
+    } as Record<string, unknown>);
   }
 
   return (
@@ -86,7 +100,7 @@ export function CheckoutCard({
           <p>Processing your information...</p>
           <spinners.BeatLoader color="var(--accent)" />
         </div>
-      ) : (clientSecret && stripePromise) ? (
+      ) : clientSecret && stripePromise ? (
         <EmbeddedCheckoutProvider
           stripe={stripePromise}
           options={{
@@ -105,9 +119,9 @@ export function CheckoutCard({
       ) : (
         <div className="row center middle dvh-80 p-10">
           <h4 className="center">
-            An error occurred setting up your payment. 
-            Screenshot this
-            and contact {CONTACT.devEmail} for support!
+            An error occurred setting up your
+            payment. Screenshot this and contact{" "}
+            {CONTACT.devEmail} for support!
           </h4>
         </div>
       )}

@@ -10,11 +10,18 @@ export function now(): DateTime {
   return DateTime.now();
 }
 
-export function formatDate(iso: string, fmt = "dd MMM"): string {
+export function formatDate(
+  iso: string,
+  fmt = "dd MMM",
+): string {
   return DateTime.fromISO(iso).toFormat(fmt);
 }
 
-export function formatTimeRange(start: string, end: string, zone?: string): string {
+export function formatTimeRange(
+  start: string,
+  end: string,
+  zone?: string,
+): string {
   const opts = zone ? { zone } : {};
   const s = DateTime.fromISO(start, opts);
   const e = DateTime.fromISO(end, opts);

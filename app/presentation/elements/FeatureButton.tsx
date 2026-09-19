@@ -47,7 +47,9 @@ export function FeatureButton({
   const bkgStartRef = useRef(null);
   const bkgEndRef = useRef(null);
   const mainRef = useRef(null);
-  const tlRef = useRef<gsap.core.Timeline | null>(null);
+  const tlRef = useRef<gsap.core.Timeline | null>(
+    null,
+  );
   const pendingOutRef = useRef(false);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -80,7 +82,9 @@ export function FeatureButton({
       color: defaultColor,
       duration: duration,
       onComplete: () => {
-        gsap.set(buttonRef.current, { clearProps: "boxShadow" });
+        gsap.set(buttonRef.current, {
+          clearProps: "boxShadow",
+        });
       },
     });
     const svgEls = (
@@ -120,12 +124,49 @@ export function FeatureButton({
     });
     tlRef.current = tl;
 
-    tl.to(bkgEndRef.current, { autoAlpha: 1, width: "100%", ease, duration }, 0)
-      .to(bkgStartRef.current, { autoAlpha: 0, transformOrigin: "right", width: "0%", ease, duration }, 0)
-      .to(buttonRef.current, { color: hoverColor, boxShadow: `0 0 0 1px ${hoverColor}`, opacity: 1, duration }, 0);
+    tl.to(
+      bkgEndRef.current,
+      {
+        autoAlpha: 1,
+        width: "100%",
+        ease,
+        duration,
+      },
+      0,
+    )
+      .to(
+        bkgStartRef.current,
+        {
+          autoAlpha: 0,
+          transformOrigin: "right",
+          width: "0%",
+          ease,
+          duration,
+        },
+        0,
+      )
+      .to(
+        buttonRef.current,
+        {
+          color: hoverColor,
+          boxShadow: `0 0 0 1px ${hoverColor}`,
+          opacity: 1,
+          duration,
+        },
+        0,
+      );
 
     if (svgEls?.length)
-      tl.to(svgEls, { color: hoverColor, fill: hoverColor, stroke: hoverColor, duration }, 0);
+      tl.to(
+        svgEls,
+        {
+          color: hoverColor,
+          fill: hoverColor,
+          stroke: hoverColor,
+          duration,
+        },
+        0,
+      );
   }
 
   function onMouseOut(
@@ -144,7 +185,13 @@ export function FeatureButton({
         id={id}
         ref={mainRef}
         className="w-100 relative r-lg"
-        style={{ ...style, zIndex: 1, pointerEvents: disabled ? 'none' : undefined }}
+        style={{
+          ...style,
+          zIndex: 1,
+          pointerEvents: disabled
+            ? "none"
+            : undefined,
+        }}
       >
         <div
           id="feature-button-bkg-normal"
@@ -202,7 +249,13 @@ export function FeatureButton({
       id={id}
       ref={mainRef}
       className="w-100 relative r-lg"
-      style={{ ...style, zIndex: 1, pointerEvents: disabled ? 'none' : undefined }}
+      style={{
+        ...style,
+        zIndex: 1,
+        pointerEvents: disabled
+          ? "none"
+          : undefined,
+      }}
     >
       <div
         id="feature-button-bkg-normal"

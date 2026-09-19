@@ -1,5 +1,9 @@
 import { useEffect, useRef } from "react";
-import { useInView, useMotionValue, useSpring } from "framer-motion";
+import {
+  useInView,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
 
 export interface AnimatedTextProps {
   to: number;
@@ -44,17 +48,24 @@ export function AnimatedText({
     stiffness,
   });
 
-  const isInView = useInView(ref, { once: true, margin: "0px" });
+  const isInView = useInView(ref, {
+    once: true,
+    margin: "0px",
+  });
 
   // Set initial text content to the initial value based on direction
   useEffect(() => {
     if (ref.current) {
-      const initial = direction === "down" ? to : from;
-      const formatted = Intl.NumberFormat("en-US", {
-        useGrouping: !!separator,
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0,
-      }).format(Number(initial.toFixed(0)));
+      const initial =
+        direction === "down" ? to : from;
+      const formatted = Intl.NumberFormat(
+        "en-US",
+        {
+          useGrouping: !!separator,
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        },
+      ).format(Number(initial.toFixed(0)));
       ref.current.textContent =
         separator && separator !== ","
           ? formatted.replace(/,/g, separator)
@@ -70,7 +81,9 @@ export function AnimatedText({
       }
 
       const timeoutId = setTimeout(() => {
-        motionValue.set(direction === "down" ? from : to);
+        motionValue.set(
+          direction === "down" ? from : to,
+        );
       }, delay * 1000);
 
       const durationTimeoutId = setTimeout(
@@ -102,28 +115,37 @@ export function AnimatedText({
 
   // Update text content with formatted number on spring value change
   useEffect(() => {
-    const unsubscribe = springValue.on("change", (latest) => {
-      if (ref.current) {
-        const options = {
-          useGrouping: !!separator,
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 0,
-        };
+    const unsubscribe = springValue.on(
+      "change",
+      (latest) => {
+        if (ref.current) {
+          const options = {
+            useGrouping: !!separator,
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+          };
 
-        const formattedNumber = Intl.NumberFormat(
-          "en-US",
-          options,
-        ).format(Number(latest.toFixed(0)));
+          const formattedNumber =
+            Intl.NumberFormat(
+              "en-US",
+              options,
+            ).format(Number(latest.toFixed(0)));
 
-        ref.current.textContent =
-          separator && separator !== ","
-            ? formattedNumber.replace(/,/g, separator)
-            : formattedNumber;
-      }
-    });
+          ref.current.textContent =
+            separator && separator !== ","
+              ? formattedNumber.replace(
+                  /,/g,
+                  separator,
+                )
+              : formattedNumber;
+        }
+      },
+    );
 
     return () => unsubscribe();
   }, [springValue, separator]);
 
-  return <span className={`${className}`} ref={ref} />;
+  return (
+    <span className={`${className}`} ref={ref} />
+  );
 }

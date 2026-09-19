@@ -44,15 +44,9 @@ export const links: Route.LinksFunction = () => [
     href: "https://fonts.gstatic.com",
     crossOrigin: "anonymous",
   },
-  // Replace with the fonts this project uses. Keep the preconnect lines above.
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap",
-  },
-  // Quill stylesheet — only loaded if a TCFreeType editor is rendered. Drop if unused.
-  {
-    rel: "stylesheet",
-    href: "https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css",
   },
 ];
 
@@ -76,9 +70,11 @@ export function Layout({
     <html lang="en">
       <head>
         <meta charSet="utf-8" />
+        {/* viewport-fit=cover is what makes env(safe-area-inset-*) resolve,
+            which the .safe-bottom / .safe-top utilities depend on. */}
         <meta
           name="viewport"
-          content="width=device-width, initial-scale=1"
+          content="width=device-width, initial-scale=1, viewport-fit=cover"
         />
         <Meta />
         <Links />

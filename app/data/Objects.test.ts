@@ -19,17 +19,23 @@ describe("formatNumber", () => {
 
 describe("formatDollars", () => {
   it("renders 2 decimals by default", () => {
-    expect(formatDollars(12345.6)).toBe("12,345.60");
+    expect(formatDollars(12345.6)).toBe(
+      "12,345.60",
+    );
   });
 
   it("honours the decimals argument", () => {
-    expect(formatDollars(12345.6, 0)).toBe("12,346");
+    expect(formatDollars(12345.6, 0)).toBe(
+      "12,346",
+    );
   });
 });
 
 describe("formatCents", () => {
   it("converts cents to formatted dollars", () => {
-    expect(formatCents(1234500)).toBe("12,345.00");
+    expect(formatCents(1234500)).toBe(
+      "12,345.00",
+    );
   });
 
   it("handles null/undefined as 0", () => {

@@ -8,14 +8,19 @@ export interface ContactBlockProps {
 }
 
 // Populate per-project. Leave the array empty to hide the social row.
-const socialLinks: { name: IoniconName; href: string }[] = [];
+const socialLinks: {
+  name: IoniconName;
+  href: string;
+}[] = [];
 
 /******************************
  * ContactBlock
  * Shared contact UI used by the footer and the NavBar "Contact" dropdown.
  * Renders the social icons + email link; layout controls flex direction.
  */
-export function ContactBlock({ layout = "row" }: ContactBlockProps) {
+export function ContactBlock({
+  layout = "row",
+}: ContactBlockProps) {
   const wrapperClass =
     layout === "row"
       ? "row wrap gap-10 middle center"
@@ -34,7 +39,10 @@ export function ContactBlock({ layout = "row" }: ContactBlockProps) {
             aria-label={s.name}
             className="boxed p-10"
           >
-            <Icon color="var(--accent) !important" name={s.name} />
+            <Icon
+              color="var(--accent) !important"
+              name={s.name}
+            />
           </a>
         ))}
       </div>

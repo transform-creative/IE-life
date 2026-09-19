@@ -38,7 +38,9 @@ export interface SharedContextProps {
   brandConfig: BrandCopy;
 
   paymentStepper: Partial<PaymentStepperProps>;
-  setPaymentStepper: (props: Partial<PaymentStepperProps>) => void;
+  setPaymentStepper: (
+    props: Partial<PaymentStepperProps>,
+  ) => void;
 
   aalCurrent: AalLevel | null;
   aalNext: AalLevel | null;

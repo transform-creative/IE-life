@@ -38,7 +38,8 @@ export function SlideOutModal({
   title,
   headerButton,
 }: SlideOutModalProps) {
-  const transitionRef = useRef<HTMLDivElement>(null);
+  const transitionRef =
+    useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!active) return;
@@ -46,7 +47,11 @@ export function SlideOutModal({
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
+    return () =>
+      window.removeEventListener(
+        "keydown",
+        handleKey,
+      );
   }, [active, onClose]);
 
   function handleMainClick(e: any) {
@@ -75,7 +80,9 @@ export function SlideOutModal({
     <div
       style={{ position: "relative", ...style }}
     >
-      {active && <div className="modal-bkg fade-sm" />}
+      {active && (
+        <div className="modal-bkg fade-sm" />
+      )}
       <Transition
         nodeRef={transitionRef}
         in={active}
@@ -116,12 +123,14 @@ export function SlideOutModal({
               <div
                 className="boxed p-10"
                 style={{
-                                    borderRadius: `var(--border) 0 0 0`,
+                  borderRadius: `var(--border) 0 0 0`,
                   minWidth: width,
                   maxWidth: width,
                   minHeight: height,
                   height: "100dvh",
-                  marginRight: context?.inShrink ? 0 : 0,
+                  marginRight: context?.inShrink
+                    ? 0
+                    : 0,
                 }}
               >
                 {title ? (
@@ -129,11 +138,14 @@ export function SlideOutModal({
                     {/* Structured header: title + close button inline */}
                     <div
                       className="row between middle"
-                      style={{ padding: "6px 4px 8px" }}
+                      style={{
+                        padding: "6px 4px 8px",
+                      }}
                     >
                       <label
                         style={{
-                          textTransform: "uppercase",
+                          textTransform:
+                            "uppercase",
                           letterSpacing: "1.5px",
                           fontSize: "0.78rem",
                           fontWeight: 700,
@@ -144,15 +156,26 @@ export function SlideOutModal({
                       >
                         {title}
                       </label>
-                      <Icon name="close" className="clickable" onClick={onClose} />
+                      <Icon
+                        name="close"
+                        className="clickable"
+                        onClick={onClose}
+                      />
                     </div>
                     {/* Optional action button below the title row */}
                     {headerButton && (
-                      <div style={{ padding: "0 4px 8px" }}>
+                      <div
+                        style={{
+                          padding: "0 4px 8px",
+                        }}
+                      >
                         {headerButton}
                       </div>
                     )}
-                    <div className="divider w-100" style={{ marginBottom: 12 }} />
+                    <div
+                      className="divider w-100"
+                      style={{ marginBottom: 12 }}
+                    />
                   </>
                 ) : (
                   /* Legacy layout — absolute close icon, no title */
@@ -160,12 +183,16 @@ export function SlideOutModal({
                     style={{
                       position: "absolute",
                       right: 10,
-                      zIndex: 20
+                      zIndex: 20,
                     }}
                   >
                     <Icon
                       name="close-circle"
-                      size={context?.inShrink ? 30 : 20}
+                      size={
+                        context?.inShrink
+                          ? 30
+                          : 20
+                      }
                       className="clickable"
                       onClick={onClose}
                     />

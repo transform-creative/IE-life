@@ -34,24 +34,37 @@
 
 /* The spinning gradient lives entirely in ::before — the img is untouched */
 .framed-avatar-ring[class*="frame-"]::before {
-  content: '';
+  content: "";
   position: absolute;
   inset: 0;
   border-radius: 50%;
   z-index: 0;
 }
 
-@keyframes frame-ring-cw { to { transform: rotate(1turn); } }
+@keyframes frame-ring-cw {
+  to {
+    transform: rotate(1turn);
+  }
+}
 
 /* ── Ocean Wave — deep navy → cyan → aqua loop ── */
 .framed-avatar-ring.frame-ocean-wave::before {
   background: conic-gradient(
     from 0deg,
-    #03045e, #023e8a, #0096c7, #48cae4,
-    #90e0ef, #ade8f4, #00b4d8, #0077b6,
-    #023e8a, #03045e
+    #03045e,
+    #023e8a,
+    #0096c7,
+    #48cae4,
+    #90e0ef,
+    #ade8f4,
+    #00b4d8,
+    #0077b6,
+    #023e8a,
+    #03045e
   );
-  box-shadow: 0 0 10px rgba(0, 150, 199, 0.7), 0 0 20px rgba(0, 150, 199, 0.35);
+  box-shadow:
+    0 0 10px rgba(0, 150, 199, 0.7),
+    0 0 20px rgba(0, 150, 199, 0.35);
   animation: frame-ring-cw 7s linear infinite;
 }
 
@@ -59,11 +72,19 @@
 .framed-avatar-ring.frame-rainbow::before {
   background: conic-gradient(
     from 0deg,
-    #ff0000, #ff6600, #ffd700, #33cc33,
-    #00ccff, #3366ff, #9933ff, #ff33cc,
+    #ff0000,
+    #ff6600,
+    #ffd700,
+    #33cc33,
+    #00ccff,
+    #3366ff,
+    #9933ff,
+    #ff33cc,
     #ff0000
   );
-  box-shadow: 0 0 10px rgba(180, 80, 220, 0.75), 0 0 20px rgba(255, 100, 0, 0.4);
+  box-shadow:
+    0 0 10px rgba(180, 80, 220, 0.75),
+    0 0 20px rgba(255, 100, 0, 0.4);
   animation: frame-ring-cw 4s linear infinite;
 }
 
@@ -71,11 +92,23 @@
 .framed-avatar-ring.frame-inferno::before {
   background: conic-gradient(
     from 0deg,
-    #1a0000, #7b0000, #c1121f, #e85d04,
-    #faa307, #ffd60a, #fff3b0, #ffd60a,
-    #faa307, #e85d04, #c1121f, #7b0000, #1a0000
+    #1a0000,
+    #7b0000,
+    #c1121f,
+    #e85d04,
+    #faa307,
+    #ffd60a,
+    #fff3b0,
+    #ffd60a,
+    #faa307,
+    #e85d04,
+    #c1121f,
+    #7b0000,
+    #1a0000
   );
-  box-shadow: 0 0 12px rgba(232, 93, 4, 0.8), 0 0 24px rgba(232, 93, 4, 0.4);
+  box-shadow:
+    0 0 12px rgba(232, 93, 4, 0.8),
+    0 0 24px rgba(232, 93, 4, 0.4);
   animation: frame-ring-cw 5s linear infinite;
 }
 
@@ -83,11 +116,23 @@
 .framed-avatar-ring.frame-gold-rush::before {
   background: conic-gradient(
     from 0deg,
-    #3d2800, #7b5e1a, #b8860b, #c9a84c,
-    #f2de8e, #ffd700, #fffacd, #ffd700,
-    #f2de8e, #c9a84c, #b8860b, #7b5e1a, #3d2800
+    #3d2800,
+    #7b5e1a,
+    #b8860b,
+    #c9a84c,
+    #f2de8e,
+    #ffd700,
+    #fffacd,
+    #ffd700,
+    #f2de8e,
+    #c9a84c,
+    #b8860b,
+    #7b5e1a,
+    #3d2800
   );
-  box-shadow: 0 0 12px rgba(201, 168, 76, 0.8), 0 0 24px rgba(201, 168, 76, 0.4);
+  box-shadow:
+    0 0 12px rgba(201, 168, 76, 0.8),
+    0 0 24px rgba(201, 168, 76, 0.4);
   animation: frame-ring-cw 9s linear infinite;
 }
 
@@ -95,10 +140,18 @@
 .framed-avatar-ring.frame-lightning::before {
   background: conic-gradient(
     from 0deg,
-    #03045e, #0077b6, #48cae4,
-    #caf0f8, #ffffff, #e0f7ff,
-    #48cae4, #0096c7, #03045e
+    #03045e,
+    #0077b6,
+    #48cae4,
+    #caf0f8,
+    #ffffff,
+    #e0f7ff,
+    #48cae4,
+    #0096c7,
+    #03045e
   );
-  box-shadow: 0 0 14px rgba(72, 202, 228, 0.9), 0 0 28px rgba(72, 202, 228, 0.5);
+  box-shadow:
+    0 0 14px rgba(72, 202, 228, 0.9),
+    0 0 28px rgba(72, 202, 228, 0.5);
   animation: frame-ring-cw 2.5s linear infinite;
 }

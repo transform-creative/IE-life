@@ -1,7 +1,10 @@
 import IonIcon from "@reacticons/ionicons";
 import gsap from "gsap";
 import { useEffect, useRef } from "react";
-import { Transition, TransitionGroup } from "react-transition-group";
+import {
+  Transition,
+  TransitionGroup,
+} from "react-transition-group";
 import type { ActivatableElement } from "~/data/CommonTypes";
 import { Icon } from "./Icon";
 
@@ -24,7 +27,8 @@ export function Alert({
   body,
   state = "success",
 }: SavedModalProps) {
-  const transitionRef = useRef<HTMLDivElement>(null);
+  const transitionRef =
+    useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (active == true) {
@@ -67,13 +71,19 @@ export function Alert({
         ref={transitionRef}
         className="row middle center w-100 clickable"
         onClick={() => onClose()}
-        style={{ position: "fixed", zIndex: 100, top: 10 }}
+        style={{
+          position: "fixed",
+          zIndex: 100,
+          top: 10,
+        }}
       >
         <div
           className="boxed w-50 p-0 m-10"
           style={{
             background: ` ${
-              state == "fail" ? "var(--danger)" : "var(--accent)"
+              state == "fail"
+                ? "var(--danger)"
+                : "var(--accent)"
             }`,
 
             height: "auto",
@@ -89,12 +99,18 @@ export function Alert({
                   : "close-circle-outline"
               }`}
               size={30}
-              color={state == "fail" ? "var(--accemt-sm)" : "var(--accent-md)"}
+              color={
+                state == "fail"
+                  ? "var(--accemt-sm)"
+                  : "var(--accent-md)"
+              }
             />
             <div className="center col middle">
               {header && (
                 <h3
-                  style={{ color: "var(--accent-sm)" }}
+                  style={{
+                    color: "var(--accent-sm)",
+                  }}
                   className="m-51 center"
                 >
                   {header}
@@ -102,7 +118,9 @@ export function Alert({
               )}
               {body && (
                 <p
-                  style={{ color: "var(--accent-sm)" }}
+                  style={{
+                    color: "var(--accent-sm)",
+                  }}
                   className="m-5 textCencenterter"
                 >
                   {body}
@@ -110,7 +128,7 @@ export function Alert({
               )}
             </div>
             <Icon
-            size={30}
+              size={30}
               className="buttonIcon m0"
               color="var(--accent-md)"
               name="close-circle"

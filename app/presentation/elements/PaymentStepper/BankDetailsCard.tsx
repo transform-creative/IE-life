@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Icon } from "../Icon";
 
 export interface BankDetailsCardProps {
-  bankDetails: { name: string; bsb: string; account: string };
+  bankDetails: {
+    name: string;
+    bsb: string;
+    account: string;
+  };
   /** Optional disclaimer text shown beneath the bank details. */
   disclaimer?: string;
 }
@@ -16,20 +20,37 @@ export function BankDetailsCard({
   bankDetails,
   disclaimer,
 }: BankDetailsCardProps) {
-  const [copied, setCopied] = useState<string | null>(null);
+  const [copied, setCopied] = useState<
+    string | null
+  >(null);
 
   /***********************************
    * Copies a value to the clipboard and shows a brief confirmation
    */
-  function handleCopy(value: string, key: string) {
+  function handleCopy(
+    value: string,
+    key: string,
+  ) {
     navigator.clipboard.writeText(value);
     setCopied(key);
     setTimeout(() => setCopied(null), 1500);
   }
 
-  const rows: { label: string; value: string; key: string }[] = [
-    { label: "Name:", value: bankDetails.name, key: "name" },
-    { label: "BSB", value: bankDetails.bsb, key: "bsb" },
+  const rows: {
+    label: string;
+    value: string;
+    key: string;
+  }[] = [
+    {
+      label: "Name:",
+      value: bankDetails.name,
+      key: "name",
+    },
+    {
+      label: "BSB",
+      value: bankDetails.bsb,
+      key: "bsb",
+    },
     {
       label: "Account number",
       value: bankDetails.account,
@@ -55,7 +76,9 @@ export function BankDetailsCard({
                   : undefined,
             }}
           >
-            <h4 style={{ minWidth: 120 }}>{row.label}</h4>
+            <h4 style={{ minWidth: 120 }}>
+              {row.label}
+            </h4>
             <div className="row middle gap-10">
               <p style={{}}>{row.value}</p>
               <Icon
@@ -66,9 +89,13 @@ export function BankDetailsCard({
                 }
                 size={14}
                 color={
-                  copied === row.key ? "var(--safe)" : "var(--txt)"
+                  copied === row.key
+                    ? "var(--safe)"
+                    : "var(--txt)"
                 }
-                onClick={() => handleCopy(row.value, row.key)}
+                onClick={() =>
+                  handleCopy(row.value, row.key)
+                }
               />
             </div>
           </div>
@@ -76,7 +103,12 @@ export function BankDetailsCard({
       </div>
       {disclaimer && (
         <div className="col gap-10 mt-5 boxed p-10">
-          <p style={{ color: "var(--accent-high)", lineHeight: 1.5 }}>
+          <p
+            style={{
+              color: "var(--accent-high)",
+              lineHeight: 1.5,
+            }}
+          >
             {disclaimer}
           </p>
         </div>

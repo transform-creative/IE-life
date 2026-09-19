@@ -52,6 +52,9 @@
   --space-10: clamp(6px, 0.7vw, 10px);
   --space-20: clamp(12px, 1.4vw, 20px);
   --space-30: clamp(18px, 2.1vw, 30px);
+
+  /* Minimum comfortable touch target. Apply via `.tap` to anything tappable. */
+  --tap-min: 44px;
 }
 
 :root [data-theme="light"] {
@@ -1082,5 +1085,77 @@ h5.center {
   }
   100% {
     background-position: -200% 0;
+  }
+}
+
+/************************************
+********** Mobile first *************
+*************************************
+
+  Base rules below target a PHONE. Anything wider is an enhancement added with
+  `min-width`, never a desktop layout shrunk down with `max-width`.
+
+  Single breakpoint: `md` = 768px. (The 1200px `.shrink-*` block above is the
+  older template breakpoint and still applies — it is not the mobile boundary.)
+*/
+
+/* Minimum 44px hit area — put this on every button, link and toggle that is
+   tapped rather than clicked. Small icons fail WCAG target size without it. */
+.tap {
+  min-height: var(--tap-min);
+  min-width: var(--tap-min);
+}
+
+/* Clears the iOS home indicator / Android gesture bar. Requires
+   `viewport-fit=cover` on the viewport meta tag (set in root.tsx). */
+.safe-bottom {
+  padding-bottom: env(
+    safe-area-inset-bottom,
+    0px
+  );
+}
+.safe-top {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+/* Horizontally scrollable strip — the mobile answer to a wide table or a row
+   of cards. Momentum scrolling on, scrollbar hidden. */
+.scroll-x {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* Stack on a phone, spread out at >= 768px. */
+.md-row {
+  display: flex;
+  flex-direction: column;
+}
+.md-col {
+  display: flex;
+  flex-direction: row;
+}
+
+/* .md-hide is visible on a phone and gone on desktop; .md-show is the reverse. */
+.md-show {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .md-row {
+    flex-direction: row;
+  }
+  .md-col {
+    flex-direction: column;
+  }
+  .md-hide {
+    display: none;
+  }
+  .md-show {
+    display: revert;
   }
 }

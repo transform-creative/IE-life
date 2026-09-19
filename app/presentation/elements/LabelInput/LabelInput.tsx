@@ -28,22 +28,28 @@ export interface LabelInputProps {
   inlineLabel?: boolean;
   outline?: boolean;
   step?: number;
-  onChange: (newValue: React.ChangeEvent<any>) => void;
-  onInputChange?: (newValue: React.ChangeEvent<any>) => void;
-  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+  onChange: (
+    newValue: React.ChangeEvent<any>,
+  ) => void;
+  onInputChange?: (
+    newValue: React.ChangeEvent<any>,
+  ) => void;
+  onKeyDown?: (
+    e: React.KeyboardEvent<any>,
+  ) => void;
 }
 
 /******************************
  * LabelInput component
  * Labelled text input that supports plain text, textarea, and react-select dropdown modes
  */
-export function LabelInput ({
+export function LabelInput({
   id = "",
   name,
   value,
   defaultValue,
   error,
-  errorColor="var(--danger)",
+  errorColor = "var(--danger)",
   placeholder,
   type,
   className,
@@ -59,29 +65,31 @@ export function LabelInput ({
   onInputChange,
   onChange,
 }: LabelInputProps) {
-  const [selected, setSelected] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement | HTMLTextAreaElement>(
-    null,
-  );
+  const [selected, setSelected] =
+    useState<boolean>(false);
+  const inputRef = useRef<
+    HTMLInputElement | HTMLTextAreaElement
+  >(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  function handleFocus () {
+  function handleFocus() {
     if (inputRef.current?.disabled) return;
 
     setSelected(true);
     inputRef.current?.focus();
   }
 
-  function handleBlur () {
+  function handleBlur() {
     setSelected(false);
     wrapperRef.current?.blur();
   }
 
   return (
-    <div className="w-100 r-default"  >
+    <div className="w-100 r-default">
       <div
-        className={`${selected && ""
-          } ${className}`}
+        className={`${
+          selected && ""
+        } ${className}`}
         onClick={() => handleFocus()}
         role={disabled ? "disabled" : "none"}
       >
@@ -92,23 +100,29 @@ export function LabelInput ({
               htmlFor={id || name}
               style={{
                 color: `${error ? errorColor : style?.color || "var(--txt)"}`,
-               
               }}
             >
               {name}
             </label>
           </div>
         )}
-        <div className="row " >
-          <div className="w-100 row middle" >
-            {inlineLabel && <h3 className="mr-5 ml-5">{name}</h3>}
+        <div className="row ">
+          <div className="w-100 row middle">
+            {inlineLabel && (
+              <h3 className="mr-5 ml-5">
+                {name}
+              </h3>
+            )}
             {isTextArea ? (
               <textarea
-                ref={inputRef as Ref<HTMLTextAreaElement>}
+                ref={
+                  inputRef as Ref<HTMLTextAreaElement>
+                }
                 id={id || name}
                 name={name}
-                className={`p-10 m-0 w-100 labelInput fade-sm ${selected && "labelInputSelected"
-                  } ${outline ? "outline-secondary" : ""} ${className}`}
+                className={`p-10 m-0 w-100 labelInput fade-sm ${
+                  selected && "labelInputSelected"
+                } ${outline ? "outline-secondary" : ""} ${className}`}
                 placeholder={placeholder || ""}
                 role="labelInput"
                 autoComplete={autoComplete}
@@ -121,7 +135,8 @@ export function LabelInput ({
                   ...style,
                   color: `${error ? "var(--danger)" : "var(--txt)"}`,
                   border: "none",
-                  background: "var(--bkg-gradient)",
+                  background:
+                    "var(--bkg-gradient)",
                 }}
               />
             ) : options ? (
@@ -130,13 +145,23 @@ export function LabelInput ({
                 value={value}
                 defaultValue={defaultValue}
                 disabled={disabled}
-                /**@ts-ignore */
-                onChange={(val) => onChange(val)}
-                /**@ts-ignore */
-                onInputChange={(val) => onInputChange?.(val)}
+                /* In select mode TypeInput emits an InputOption, not a
+                   ChangeEvent. Cast rather than widen the prop type — widening
+                   would break every caller whose handler takes a ChangeEvent. */
+                onChange={(val) =>
+                  onChange(
+                    val as unknown as React.ChangeEvent<any>,
+                  )
+                }
+                onInputChange={(val) =>
+                  onInputChange?.(
+                    val as unknown as React.ChangeEvent<any>,
+                  )
+                }
                 options={options}
-                className={`w-100 labelInput fade-sm ${selected && "labelInputSelected"
-                  } ${outline ? "outline" : ""} ${className}`}
+                className={`w-100 labelInput fade-sm ${
+                  selected && "labelInputSelected"
+                } ${outline ? "outline" : ""} ${className}`}
                 placeholder={placeholder || ""}
               />
             ) : (
@@ -144,9 +169,12 @@ export function LabelInput ({
                 id={id || name}
                 name={name}
                 step={step}
-                ref={inputRef as Ref<HTMLInputElement>}
-                className={`p-10 m-0 w-100 labelInput fade-sm ${selected && "labelInputSelected"
-                  } ${outline ? "outline" : ""} ${className}`}
+                ref={
+                  inputRef as Ref<HTMLInputElement>
+                }
+                className={`p-10 m-0 w-100 labelInput fade-sm ${
+                  selected && "labelInputSelected"
+                } ${outline ? "outline" : ""} ${className}`}
                 placeholder={placeholder || ""}
                 role="labelInput"
                 type={type || "text"}
@@ -159,8 +187,8 @@ export function LabelInput ({
                 style={{
                   ...style,
                   color: `${error ? errorColor : "var(--txt)"}`,
-                                    background: "var(--bkg-gradient)",
-
+                  background:
+                    "var(--bkg-gradient)",
                 }}
               />
             )}
@@ -169,8 +197,13 @@ export function LabelInput ({
       </div>
       {error && (
         <div className="row middle gap-5">
-          <Icon name="alert-circle-outline" color={errorColor} />
-          <p style={{ color: errorColor }}>{error}</p>
+          <Icon
+            name="alert-circle-outline"
+            color={errorColor}
+          />
+          <p style={{ color: errorColor }}>
+            {error}
+          </p>
         </div>
       )}
     </div>

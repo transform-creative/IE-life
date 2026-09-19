@@ -24,7 +24,10 @@ export type PostalAddress = {
 export interface AddressFieldsProps {
   address: PostalAddress;
   errors?: Record<string, ErrorLabelType>;
-  onChange: (key: keyof PostalAddress, value: string) => void;
+  onChange: (
+    key: keyof PostalAddress,
+    value: string,
+  ) => void;
   outline?: boolean;
 }
 
@@ -38,13 +41,17 @@ export function AddressFields({
   onChange,
   outline,
 }: AddressFieldsProps) {
-  const [stateSearch, setStateSearch] = useState("");
+  const [stateSearch, setStateSearch] =
+    useState("");
 
   return (
     <div className="col gap-10">
       {/* Row 1: Number & Street */}
       <div className="row gap-10">
-        <div className="w-20" style={{ minWidth: "100px" }}>
+        <div
+          className="w-20"
+          style={{ minWidth: "100px" }}
+        >
           <LabelInput
             outline={outline}
             id="number"
@@ -52,7 +59,9 @@ export function AddressFields({
             type="text"
             placeholder="10A"
             value={address.number || ""}
-            onChange={(e) => onChange("number", e.target.value)}
+            onChange={(e) =>
+              onChange("number", e.target.value)
+            }
             error={errors["number"]?.text}
             autoComplete="address-line1"
           />
@@ -64,7 +73,9 @@ export function AddressFields({
             name="Street Name"
             type="text"
             value={address.street || ""}
-            onChange={(e) => onChange("street", e.target.value)}
+            onChange={(e) =>
+              onChange("street", e.target.value)
+            }
             error={errors["street"]?.text}
             autoComplete="address-line1"
           />
@@ -80,7 +91,9 @@ export function AddressFields({
             name="Suburb"
             type="text"
             value={address.suburb || ""}
-            onChange={(e) => onChange("suburb", e.target.value)}
+            onChange={(e) =>
+              onChange("suburb", e.target.value)
+            }
             error={errors["suburb"]?.text}
             autoComplete="address-level2"
           />
@@ -98,8 +111,12 @@ export function AddressFields({
                 label: state,
               }))}
               value={address.state}
-              onInputChange={(e) => setStateSearch(e.target.value)}
-              onChange={(e) => onChange("state", e.target.value)}
+              onInputChange={(e) =>
+                setStateSearch(e.target.value)
+              }
+              onChange={(e) =>
+                onChange("state", e.target.value)
+              }
               error={errors["state"]?.text}
               autoComplete="address-level1"
             />
@@ -114,7 +131,10 @@ export function AddressFields({
             type="text"
             value={address.postcode || ""}
             onChange={(e) => {
-              const val = e.target.value.replace(/\D/g, "");
+              const val = e.target.value.replace(
+                /\D/g,
+                "",
+              );
               onChange("postcode", val);
             }}
             error={errors["postcode"]?.text}

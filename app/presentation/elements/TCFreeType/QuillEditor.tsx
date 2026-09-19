@@ -15,7 +15,8 @@ class CustomLink extends Link {
   static blotName = "link";
   static create(value: string) {
     const node = super.create(value);
-    if (value.startsWith("/")) node.setAttribute("target", "_self");
+    if (value.startsWith("/"))
+      node.setAttribute("target", "_self");
     return node;
   }
 }
@@ -68,30 +69,41 @@ const QuillEditor = forwardRef(
       onSelectionChange,
       onImageRequest,
       toolbar,
-      className
+      className,
     }: QuillEditorProps,
-    ref: ForwardedRef<Quill>
+    ref: ForwardedRef<Quill>,
   ) => {
     const containerRef = useRef<any>(undefined);
     const onTextChangeRef = useRef(onTextChange);
-    const onSelectionChangeRef = useRef(onSelectionChange);
-    const onImageRequestRef = useRef(onImageRequest);
+    const onSelectionChangeRef = useRef(
+      onSelectionChange,
+    );
+    const onImageRequestRef = useRef(
+      onImageRequest,
+    );
 
     useLayoutEffect(() => {
       onTextChangeRef.current = onTextChange;
-      onSelectionChangeRef.current = onSelectionChange;
+      onSelectionChangeRef.current =
+        onSelectionChange;
       onImageRequestRef.current = onImageRequest;
     });
 
     useEffect(() => {
-      if (ref) (ref as RefObject<Quill>).current?.enable(!readOnly);
+      if (ref)
+        (ref as RefObject<Quill>).current?.enable(
+          !readOnly,
+        );
     }, [ref, readOnly]);
 
     useEffect(() => {
       const container = containerRef.current;
-      const editorContainer = container.appendChild(
-        container.ownerDocument.createElement("div")
-      );
+      const editorContainer =
+        container.appendChild(
+          container.ownerDocument.createElement(
+            "div",
+          ),
+        );
       const quill = new Quill(editorContainer, {
         theme: "snow",
         readOnly: readOnly,
@@ -110,38 +122,65 @@ const QuillEditor = forwardRef(
       // Defer the HTML paste a tick — Quill's clipboard module isn't fully
       // wired up until after the constructor returns, and consumers usually
       // pass `initialHTML` from state that updates one render after mount.
-      let pasteTimer: ReturnType<typeof setTimeout> | undefined;
+      let pasteTimer:
+        | ReturnType<typeof setTimeout>
+        | undefined;
       if (initialHTML) {
-        const safeHTML = sanitizeQuillHtml(initialHTML);
+        const safeHTML =
+          sanitizeQuillHtml(initialHTML);
         pasteTimer = setTimeout(() => {
-          quill.clipboard.dangerouslyPasteHTML(safeHTML);
+          quill.clipboard.dangerouslyPasteHTML(
+            safeHTML,
+          );
         }, 2);
       }
 
-      if (typeof toolbar !== "boolean" && onImageRequestRef.current) {
-        const toolbarModule: any = quill.getModule("toolbar");
-        toolbarModule?.addHandler?.("image", async () => {
-          const url = await onImageRequestRef.current?.();
-          if (!url) return;
-          const range = quill.getSelection(true);
-          const index = range?.index ?? quill.getLength();
-          quill.insertEmbed(index, "image", url, "user");
-          quill.setSelection(index + 1, 0);
-        });
+      if (
+        typeof toolbar !== "boolean" &&
+        onImageRequestRef.current
+      ) {
+        const toolbarModule: any =
+          quill.getModule("toolbar");
+        toolbarModule?.addHandler?.(
+          "image",
+          async () => {
+            const url =
+              await onImageRequestRef.current?.();
+            if (!url) return;
+            const range =
+              quill.getSelection(true);
+            const index =
+              range?.index ?? quill.getLength();
+            quill.insertEmbed(
+              index,
+              "image",
+              url,
+              "user",
+            );
+            quill.setSelection(index + 1, 0);
+          },
+        );
       }
 
       (ref as RefObject<Quill>).current = quill;
 
-      quill.on(Quill.events.TEXT_CHANGE, (...args) => {
-        onTextChangeRef.current?.();
-      });
-      quill.on(Quill.events.SELECTION_CHANGE, (...args) => {
-        onSelectionChangeRef.current?.();
-      });
+      quill.on(
+        Quill.events.TEXT_CHANGE,
+        (...args) => {
+          onTextChangeRef.current?.();
+        },
+      );
+      quill.on(
+        Quill.events.SELECTION_CHANGE,
+        (...args) => {
+          onSelectionChangeRef.current?.();
+        },
+      );
 
       if (ref)
         return () => {
-          if (pasteTimer) clearTimeout(pasteTimer);
+          if (pasteTimer)
+            clearTimeout(pasteTimer);
           /**@ts-ignore */
           ref.current = null;
           container.innerHTML = "";
@@ -154,7 +193,7 @@ const QuillEditor = forwardRef(
         ref={containerRef}
       ></div>
     );
-  }
+  },
 );
 
 QuillEditor.displayName = "Editor";

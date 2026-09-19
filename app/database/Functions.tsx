@@ -14,9 +14,13 @@ import { supabase } from "./SupabaseClient";
 export async function invokeStripeCheckout(
   body: Record<string, unknown>,
 ): Promise<{ clientSecret: string }> {
-  const { data, error } = await supabase.functions.invoke("stripe-checkout", {
-    body,
-  });
+  const { data, error } =
+    await supabase.functions.invoke(
+      "stripe-checkout",
+      {
+        body,
+      },
+    );
   if (error) throw error;
   return data;
 }
@@ -41,10 +45,18 @@ export async function invokeModerationCheck(body: {
   quarantinePath: string;
   destinationBucket: string;
   destinationPath: string;
-}): Promise<ModerationResult | ModerationRejection> {
-  const { data, error } = await supabase.functions.invoke("moderate-image", {
-    body,
-  });
+}): Promise<
+  ModerationResult | ModerationRejection
+> {
+  const { data, error } =
+    await supabase.functions.invoke(
+      "moderate-image",
+      {
+        body,
+      },
+    );
   if (error) throw error;
-  return data as ModerationResult | ModerationRejection;
+  return data as
+    | ModerationResult
+    | ModerationRejection;
 }

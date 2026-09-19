@@ -34,8 +34,8 @@ export type PaymentObject = {
   /** For recurring donations only */
   freq?: "week" | "month" | "year";
   returnUrl: string;
-  cart: CartItem[]
-  metadata?: {[key: string]: any}
+  cart: CartItem[];
+  metadata?: { [key: string]: any };
 };
 
 export type FreqOptions =
@@ -76,11 +76,11 @@ export interface PaymentStepperProps extends ActivatableElement {
   cart: CartItem[];
   /**
    * Set to 'cart mode' if user is checking out
-   *  a cart instead of donating. 
+   *  a cart instead of donating.
    */
   isOrder?: boolean;
   /**Display a message to the user in header */
-  message?: {header: string, body: string};
+  message?: { header: string; body: string };
   /**
    * Minimum amount in cents for donation
    */
@@ -88,32 +88,37 @@ export interface PaymentStepperProps extends ActivatableElement {
   /**Function to caluclate an amount to add to donation
    * to help cover admin costs
    */
-  bankDetails?: {name: string; bsb: string; account: string};
+  bankDetails?: {
+    name: string;
+    bsb: string;
+    account: string;
+  };
   metadata?: {};
   calculateCoverage?: (amt: number) => number;
 }
 
 export type CartItem = {
-    product: {
+  product: {
     id?: number;
     amount: number;
     name: string;
-    [key: string]: any;},
-    quantity: number
-  }
+    [key: string]: any;
+  };
+  quantity: number;
+};
 
 /**************************************
  * Calculate the total of a series of products
  * @param products
  */
 export function calculateCartAmount(
-  cart: PaymentStepperProps["cart"]
+  cart: PaymentStepperProps["cart"],
 ) {
-  if(!cart) return NaN;
+  if (!cart) return NaN;
   let total = 0;
 
   cart.forEach((p) => {
-    total += (p.product.amount || 0)*p.quantity;
+    total += (p.product.amount || 0) * p.quantity;
   });
   return total;
 }
@@ -122,11 +127,16 @@ export function calculateCartAmount(
  * Convert an amount in cents to a dollar amount for displaying
  * @param cents
  */
-export function centsToString(cents: number): string {
+export function centsToString(
+  cents: number,
+): string {
   if (!cents) return "$NaN";
 
-  return `$${(cents / 100).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+  return `$${(cents / 100).toLocaleString(
+    "en-US",
+    {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    },
+  )}`;
 }

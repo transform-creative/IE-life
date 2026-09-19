@@ -2,15 +2,19 @@ import { logError } from "~/database/Auth";
 
 export const CONTACT = {
   devEmail: "support@transformcreative.com.au",
+  // TODO: set to the household contact address (only surfaced by ContactBlock).
   orgEmail: "hello@example.com",
 };
 
 export function isMobileBrowser() {
   const userAgent =
-    typeof window === "undefined" || typeof window.navigator === "undefined"
+    typeof window === "undefined" ||
+    typeof window.navigator === "undefined"
       ? ""
       : navigator.userAgent;
-  return /iPhone|iPad|iPod|Android/i.test(userAgent);
+  return /iPhone|iPad|iPod|Android/i.test(
+    userAgent,
+  );
 }
 
 /******************************************
@@ -48,18 +52,25 @@ export function formatCents(
   cents: number | null | undefined,
   decimals: number = 2,
 ): string {
-  return formatDollars((Number(cents) || 0) / 100, decimals);
+  return formatDollars(
+    (Number(cents) || 0) / 100,
+    decimals,
+  );
 }
 
 /******************************************
  * Copy text to clipboard. Returns true on success, false on failure.
  */
-export async function copyToClipboard(text: string) {
+export async function copyToClipboard(
+  text: string,
+) {
   try {
     await navigator.clipboard.writeText(text);
     return true;
   } catch {
-    logError("Could not copy", ["copyToClipboard"]);
+    logError("Could not copy", [
+      "copyToClipboard",
+    ]);
     return false;
   }
 }

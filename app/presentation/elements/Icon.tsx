@@ -2,12 +2,12 @@ import type { SharedContextProps } from "~/data/CommonTypes";
 import { useOutletContext } from "react-router";
 import IonIcon from "@reacticons/ionicons";
 import { IoniconName } from "~/data/Ionicons";
-import "./LabelInput/LabelInput.css"
+import "./LabelInput/LabelInput.css";
 
 export interface IconProps {
   name: IoniconName;
   size?: number;
-  color?:string;
+  color?: string;
   onClick?: () => void;
   className?: string;
 }
@@ -18,24 +18,25 @@ export interface IconProps {
  */
 export function Icon({
   name,
-  color="var(--txt)",
+  color = "var(--txt)",
   className = "",
   size = 14,
-  onClick
+  onClick,
 }: IconProps) {
-  const context: SharedContextProps = useOutletContext();
+  const context: SharedContextProps =
+    useOutletContext();
 
   return (
     <div>
       <IonIcon
-      onClick={() => onClick && onClick()}
+        onClick={() => onClick && onClick()}
         name={name}
         className={`${onClick && "clickable"} ${className}`}
         style={{
           height: `${size}pt`,
           width: `${size}pt`,
           display: "flex",
-          color: color
+          color: color,
         }}
       />
     </div>
