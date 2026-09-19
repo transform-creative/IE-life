@@ -277,6 +277,15 @@ export function CreatableTypeInput({
     );
   }
 
+  // `value` is the selected option's value, not an option object — find the
+  // matching option the way TypeInput does. Passing the raw value straight to
+  // react-select (and doubling it up as `inputValue`) wedges the control:
+  // `inputValue` makes it a controlled search box that can never show a
+  // selection.
+  const selectedOption =
+    options.find((opt) => opt?.value === value) ??
+    null;
+
   return (
     <div
       className={className}
@@ -285,13 +294,12 @@ export function CreatableTypeInput({
     >
       <Creatable
         options={options}
-        inputValue={value}
-        value={value}
+        value={selectedOption}
         onChange={(val) =>
           onChange({
             target: {
-              value: val.value,
-              label: val.label,
+              value: val?.value,
+              label: val?.label,
               id: id,
             },
           })

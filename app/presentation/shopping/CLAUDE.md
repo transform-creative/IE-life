@@ -19,6 +19,29 @@ Five concepts, taken from the spreadsheet's five tabs:
 | **Week template** | A named, reusable week plan ("SIMPLE AS", "AUTUMN FEAST", "MEXICAN") to load as a starting point     |
 | **Staple**        | A recurring item bought independently of any recipe (fruit, salad veg), with a persistent note       |
 
+## What is actually built
+
+Tables are `shopping_*` in `public`, scoped by `household_id` and gated by
+`public.is_household_member()`. Migrations are in `supabase/migrations/`; schema truth is the
+Supabase MCP server, not those files.
+
+Two concepts above are **modelled in the domain but not implemented**: **Staples** have no table,
+and purchase-unit conversion is not done — `aggregateWeekIngredients` sums in cooking units only.
+Both were deferred deliberately, so don't treat their absence as an oversight.
+
+Three things that are easy to get wrong:
+
+- **The week's list is derived, not stored.** It is recomputed from the week's meals on every load;
+  only the ticks persist, in `shopping_checked_items`. So a mid-week meal change updates the list
+  for free — but there is nowhere to put a manual one-off item, which is why that feature needs a
+  new table rather than a new column.
+- **`shopping_week_plan_day_ingredients` is the per-week override.** A non-empty set _replaces_ the
+  meal's own recipe lines for that one day. This is the whole difference between editing a meal
+  from `/shopping` (permanent) and from `/shopping/week` (this week only).
+- **Aggregation groups by (ingredient, unit), not ingredient.** Tinned tomatoes really are recorded
+  as both `400 g` and `1 can`; adding them would produce a number meaning nothing. Merging them is
+  the job of purchase-unit conversion, above.
+
 ## The two unit systems — the core rule
 
 Recipe lines are in **cooking units** (`500 g` beef mince, `0.5 pack` spaghetti, `0.25 bunch`

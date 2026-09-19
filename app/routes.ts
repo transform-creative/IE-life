@@ -10,4 +10,10 @@ export default [
     "authentication",
     "routes/AuthenticationRoute.tsx",
   ),
+  route("account", "routes/AccountRoute.tsx"),
+  route("shopping", "routes/ShoppingRoute.tsx"),
+  route(
+    "shopping/week",
+    "routes/ShoppingWeekRoute.tsx",
+  ),
 ] satisfies RouteConfig;

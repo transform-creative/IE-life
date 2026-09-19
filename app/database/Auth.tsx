@@ -13,7 +13,10 @@ export async function supabaseSignIn(
     await supabase.auth.signInWithOtp({
       email: email,
       options: {
-        shouldCreateUser: true,
+        // IE Life is invite-only. Signing in must never create an account —
+        // an unknown email comes back as `otp_disabled`, which the sign-in
+        // screen reports as "no account with that address".
+        shouldCreateUser: false,
         data: originSite
           ? { origin_site: originSite }
           : undefined,

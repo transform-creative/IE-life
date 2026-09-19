@@ -1,19 +1,19 @@
 import { useOutletContext } from "react-router";
 import type { SharedContextProps } from "~/data/CommonTypes";
 import { RequireAuth } from "~/presentation/shell/RequireAuth";
-import { HomeScreen } from "~/presentation/shopping/HomeScreen";
+import { MealListScreen } from "~/presentation/shopping/MealListScreen";
 
 export function meta() {
-  return [{ title: "IE Life" }];
+  return [{ title: "Meals · IE Life" }];
 }
 
-export default function IndexRoute() {
+export default function ShoppingRoute() {
   const context: SharedContextProps =
     useOutletContext();
 
   return (
     <RequireAuth context={context}>
-      <HomeScreen />
+      <MealListScreen />
     </RequireAuth>
   );
 }

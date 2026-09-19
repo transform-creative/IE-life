@@ -53,4 +53,45 @@ describe("Checkbox", () => {
 
     expect(onChange).toHaveBeenCalledWith(false);
   });
+
+  it("exposes its state to assistive tech", () => {
+    const { rerender } = render(
+      <Checkbox
+        checked={false}
+        onChange={() => {}}
+        label="Leek"
+      />,
+    );
+    expect(
+      screen.getByRole("checkbox"),
+    ).toHaveAttribute("aria-checked", "false");
+
+    rerender(
+      <Checkbox
+        checked={true}
+        onChange={() => {}}
+        label="Leek"
+      />,
+    );
+    expect(
+      screen.getByRole("checkbox"),
+    ).toHaveAttribute("aria-checked", "true");
+  });
+
+  it("accepts a node label, not just a string", () => {
+    render(
+      <Checkbox
+        checked={false}
+        onChange={() => {}}
+        label={
+          <p>
+            <b>500 g</b> beef mince
+          </p>
+        }
+      />,
+    );
+    expect(
+      screen.getByText("500 g"),
+    ).toBeInTheDocument();
+  });
 });

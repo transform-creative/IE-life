@@ -37,10 +37,12 @@ checking first — they're candidates for deletion, not extension.
 ├── /presentation    - UI components, organized by feature
 │   ├── /authentication
 │   ├── /elements    - Reusable UI primitives
+│   ├── /shell       - AppShell, PillNav, RequireAuth
 │   └── /shopping    - Shopping + meal planning module
 ├── /database        - All Supabase queries/mutations
 │   ├── SupabaseClient.tsx, Auth.tsx, Storage.tsx, Functions.tsx
-│   └── Fetch.tsx, Insert.tsx, Update.tsx, Delete.tsx, Helper.tsx
+│   ├── Fetch.tsx, Insert.tsx, Update.tsx, Delete.tsx, Helper.tsx
+│   └── /shopping    - Per-module queries, same four-file split
 ├── /data            - Types, constants, shared utilities
 │   ├── CommonTypes.tsx   - SharedContextProps and global UI types
 │   ├── CustomTypes.tsx   - Composite/domain types
@@ -104,6 +106,13 @@ React Router v7, files in `/app/routes/`, registered in `app/routes.ts`. A new r
 | ----------------- | ------------------------- |
 | `/`               | `IndexRoute.tsx`          |
 | `/authentication` | `AuthenticationRoute.tsx` |
+| `/account`        | `AccountRoute.tsx`        |
+| `/shopping`       | `ShoppingRoute.tsx`       |
+| `/shopping/week`  | `ShoppingWeekRoute.tsx`   |
+
+Every route except `/authentication` wraps its screen in `RequireAuth`, which waits for
+`context.sessionReady` before deciding — `session` is null both before auth resolves and when
+signed out, so redirecting on null alone would bounce a signed-in user on every refresh.
 
 ---
 
@@ -158,8 +167,16 @@ if (error) {
 return data;
 ```
 
+A module with more than a couple of queries gets its own subfolder with the same four-file split
+(`app/database/shopping/Fetch.tsx`, …), so the root files stay usable as more modules land.
+
+Queries never filter by `household_id` and inserts never set it: RLS already restricts every row to
+the caller's household, and the column defaults to `current_household_id()`. Adding either by hand
+is redundant at best and a way to write into the wrong household at worst.
+
 Schema truth comes from the **Supabase MCP server** (`list_tables`, `list_migrations`,
 `generate_typescript_types`), not from `/app/setup` — those files are drafts and go stale.
+Migrations live in `supabase/migrations/` and are applied through the MCP server.
 Regenerate `app/data/supabase.ts` after any schema change.
 
 ---
@@ -181,11 +198,12 @@ Prefer the CSS variables and utility classes in `app.css` over Tailwind or inlin
 
 ### CSS variables
 
-- **Colors:** `--txt`, `--bkg`, `--accent`, `--secondary`, `--safe`, `--danger`, `--warning`,
-  `--accent-sm`, `--accent-md`, `--accent-lg`
+- **Colors:** `--txt` (near-black), `--bkg`, `--accent` (orange), `--secondary` (cream), `--safe`,
+  `--danger`, `--warning`, `--accent-sm`, `--accent-md`, `--accent-lg`, `--surface-muted`
+- **Surfaces:** `--lavender-gradient`, `--cream-gradient` — the two card fills the designs use
 - **Fluid typography:** `--text-hero`, `--text-h1`–`--text-h5`, `--text-sm`, `--text-xsm` (`clamp()`-based)
 - **Fluid spacing:** `--space-5`, `--space-10`, `--space-20`, `--space-30`
-- **Borders:** `--border` (12.5px), `--border-lg` (25px)
+- **Borders:** `--border` (12.5px), `--border-lg` (25px), `--border-pill` (fully rounded)
 - **Touch:** `--tap-min` (44px) — the minimum hit area for anything tappable
 
 ### Utility classes
@@ -197,9 +215,15 @@ Prefer the CSS variables and utility classes in `app.css` over Tailwind or inlin
 - Display: `.accent`, `.secondary`, `.bkg`, `.txt`, `.outline`, `.outline-accent`, `.boxed`
 - Shadows: `.s-5`, `.s-10`, `.s-20`
 - Animation: `.fade-sm`, `.fade-md`, `.btn-breathe`, `.skeleton`
+- IE Life surfaces: `.card-lavender`, `.card-cream`, `.pill-row` (+ `.empty`), `.hero-card` with
+  `.hero-title` (photo card, heading laid over a scrim), `.strike`
 
 Use `dvh` (`.dvh-100`), never `vh`, for anything meant to be a full screen — `100vh` is taller than
 the visible area on mobile Safari and pushes content under the browser chrome.
+
+`.app-shell` is the page frame, applied once in `root.tsx`. A screen that wants two columns on a
+wide monitor renders a `.split` and the shell widens itself via `:has()` — so there is no width
+prop to thread through, and below 1200px `.split` does nothing and its children just stack.
 
 ### Component-level CSS
 

@@ -1,5 +1,5 @@
 :root {
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
   line-height: 1;
   overflow-anchor: none;
 
@@ -7,30 +7,56 @@
 
   /**Colors**/
   color-scheme: light;
-  --txt: #1e1e1e;
+  --txt: #111111;
   --bkg: #ffffff;
-  --accent: #f5ae3e;
-  --secondary: #c7b08b;
-  --accent-sm: #f9f9f9;
-  --accent-md: #cecece;
-  --accent-lg: #3b3b3b;
+  --accent: #ed7145;
+  --secondary: #eaeeb8;
+  --accent-sm: #f7f7f7;
+  --accent-md: #d6d6d6;
+  --accent-lg: #6b6b6b;
   --accent-gradient: linear-gradient(
-    to left,
-    #f8f8f8,
-    #f8f8f8,
-    #f6d7a5
+    100deg,
+    #f3b49a,
+    var(--accent)
   );
-  --warning: #faae88;
-  --safe: #c8fa88;
-  --danger: #ed7373;
+  --warning: #f6c76a;
+  --safe: #c8e6a0;
+  --danger: #e2574c;
+  /* Alias kept because `.danger` and ErrorLabel reference this older name. */
+  --dangerColor: var(--danger);
+
+  /* Lavender — meal pills and the "tonight's dinner" card. */
+  --lavender-from: #c6bdef;
+  --lavender-to: #dcd8f8;
+  --lavender-gradient: linear-gradient(
+    100deg,
+    var(--lavender-from),
+    var(--lavender-to)
+  );
+
+  /* Cream — the week strip and the ingredients panel. */
+  --cream-from: #e7edb0;
+  --cream-to: #eff0cd;
+  --cream-gradient: linear-gradient(
+    160deg,
+    var(--cream-from),
+    var(--cream-to)
+  );
+
+  /* Empty day slot / inert surface. */
+  --surface-muted: #efefef;
+  /* Inputs read this; it was referenced but never defined. */
+  --bkg-gradient: var(--bkg);
 
   --nav-bar-spacing: 300px;
   --border: 12.5px;
   --border-high: 25px;
   --border-lg: 25px;
+  /* Fully rounded — the pill shape the designs use for rows, nav and buttons. */
+  --border-pill: 999px;
 
-  --font-primary: "poppins";
-  --font-secondary: "poppins";
+  --font-primary: "Inter";
+  --font-secondary: "Inter";
   --select-padding: 10px; /* Controls react-select dropdown thickness */
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -80,12 +106,7 @@
 }
 
 body {
-  background: linear-gradient(
-    to left,
-    #f8f8f8,
-    #f8f8f8,
-    #f6d7a5
-  );
+  background: var(--bkg);
   margin: 0;
 }
 
@@ -103,9 +124,11 @@ h5 {
   text-align: start;
   color: var(--txt);
   font-family: var(--font-primary), sans-serif;
-  font-weight: 700;
+  font-weight: 800;
   font-size: 40pt;
   line-height: 1;
+  /* The designs set big type very tight; Inter needs this to match. */
+  letter-spacing: -0.03em;
 
   margin: 0;
 }
@@ -115,6 +138,7 @@ h2 {
   font-weight: 700 !important;
   margin: 0;
   font-size: 25pt;
+  letter-spacing: -0.02em;
   color: var(--txt);
 }
 
@@ -236,7 +260,7 @@ button {
   border-radius: var(--border);
   line-height: 1.2em;
 
-  background-color: var(--accentGradient);
+  background: var(--accent-gradient);
   padding: 10px;
   margin: 0;
 
@@ -1158,4 +1182,138 @@ h5.center {
   .md-show {
     display: revert;
   }
+}
+
+/************************************
+********** IE Life surfaces *********
+*************************************
+
+  The shared vocabulary behind the designs: a cream panel, a lavender card, a
+  pill-shaped list row, and a photo card with the heading laid over it. These
+  live here rather than in per-component CSS files because every screen reuses
+  them — see the "Component-level CSS" bar in CLAUDE.md.
+*/
+
+/* The app is a single phone-width column. Base is full-bleed; it only becomes a
+   centred column once there is room for one. Bottom padding clears the nav. */
+.app-shell {
+  width: 100%;
+  padding: var(--space-10) var(--space-10)
+    calc(var(--tap-min) + var(--space-30));
+  box-sizing: border-box;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    max-width: 620px;
+    margin: 0 auto;
+    padding-top: var(--space-20);
+  }
+}
+
+/* Wide screens: a screen opts into two columns by rendering a `.split`, and the
+   shell widens to suit. `:has()` keeps the opt-in with the screen that wants it,
+   so AppShell needs no per-route prop. Below 1200px `.split` does nothing and
+   its children simply stack. */
+@media (min-width: 1200px) {
+  .app-shell:has(.split) {
+    max-width: 1100px;
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-20);
+    align-items: start;
+  }
+}
+
+.card-lavender {
+  background: var(--lavender-gradient);
+  border-radius: var(--border-lg);
+}
+
+.card-cream {
+  background: var(--cream-gradient);
+  border-radius: var(--border-lg);
+}
+
+/* A full-width rounded row — the meal list item and the day slot. */
+.pill-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-10);
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 20px;
+  min-height: var(--tap-min);
+  border: none;
+  border-radius: var(--border-pill);
+  background: var(--lavender-gradient);
+  text-align: start;
+  transition: 0.2s;
+}
+
+.pill-row.empty {
+  background: var(--surface-muted);
+}
+
+.pill-row.clickable:hover {
+  filter: brightness(0.96);
+}
+
+/* Photo card with the heading laid over the bottom-left corner. The scrim is
+   what keeps white text legible on an unpredictable photo. */
+.hero-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+  border-radius: var(--border-lg);
+  min-height: 210px;
+  padding: var(--space-20);
+  background: var(--accent-md);
+}
+
+.hero-card > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+  z-index: 0;
+}
+
+.hero-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to top,
+    #00000066,
+    #00000000 60%
+  );
+}
+
+.hero-card > *:not(img) {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-title {
+  color: #ffffff;
+  font-size: var(--text-hero);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+  margin: 0;
+}
+
+/* Ticked-off ingredient. */
+.strike {
+  text-decoration: line-through;
+  color: var(--accent-lg);
 }

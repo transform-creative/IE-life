@@ -31,6 +31,12 @@ export type AalLevel = "aal1" | "aal2";
 
 export interface SharedContextProps {
   session: Session | null;
+  /**
+   * True once the first Supabase auth event has landed. `session` is null both
+   * before auth resolves and when signed out, so a route guard needs this to
+   * tell "not signed in" from "not known yet".
+   */
+  sessionReady: boolean;
   inShrink: boolean;
   isMobile: boolean;
   popAlert: PopAlertFn;

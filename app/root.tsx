@@ -25,7 +25,7 @@ import { Alert } from "./presentation/elements/Alert";
 import { useEffect, useState } from "react";
 import { supabase } from "./database/SupabaseClient";
 import { Session } from "@supabase/supabase-js";
-import { NavBar } from "./presentation/elements/NavBar";
+import { AppShell } from "./presentation/shell/AppShell";
 import {
   CONTACT,
   isMobileBrowser,
@@ -46,7 +46,7 @@ export const links: Route.LinksFunction = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap",
+    href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&display=swap",
   },
 ];
 
@@ -98,6 +98,8 @@ export default function App() {
   });
   const [session, setSession] =
     useState<Session | null>(null);
+  const [sessionReady, setSessionReady] =
+    useState(false);
   const [inShrink, setInShrink] = useState(
     typeof window !== "undefined" &&
       window.innerWidth < SHRINK_WIDTH,
@@ -147,6 +149,9 @@ export default function App() {
       supabase.auth.onAuthStateChange(
         (event, sess) => {
           setSession(sess);
+          // Fires immediately with INITIAL_SESSION, so one event is enough to
+          // know whether anybody is signed in.
+          setSessionReady(true);
           if (
             event === "SIGNED_IN" ||
             event === "TOKEN_REFRESHED"
@@ -196,6 +201,7 @@ export default function App() {
   const context: SharedContextProps = {
     popAlert,
     session,
+    sessionReady,
     inShrink,
     isMobile,
     navigate,
@@ -209,12 +215,9 @@ export default function App() {
 
   return (
     <>
-      <NavBar
-        session={session}
-        routes={[]}
-        brand={brandConfig.site_name}
-      />
-      <Outlet context={context} />
+      <AppShell session={session}>
+        <Outlet context={context} />
+      </AppShell>
       <Alert
         header={alert.header}
         body={alert.body}
